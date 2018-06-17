@@ -11,38 +11,40 @@ import {
 export default class App extends React.Component {
 
     state={
-        animation: new Animated.Value(1)
+        animation: new Animated.Value(0)
     }
-    
+
     startAnimation=()=>{
-        /* this.state.animation.addListener(({value})=>{
-            console.log(value)
-        }) */
-        Animated.spring(this.state.animation, {
-            toValue: 2,
-            friction: 2,
-            tension: 160
-        }).start(()=>{
-            Animated.timing(this.state.animation,{
-                toValue: 1,
-            duration: 3000
-            }).start()
-            
-        })
+        Animated.timing(this.state.animation,{
+            toValue: 1,
+            duration: 5000,
+            //easing: Easing.back(1)
+            //easing: Easing.bounce
+            //easing: Easing.elastic(5)
+            easing: Easing.bezier(1,1, 0.86,0.23)
+        }).start()
     }
 
     render() {
-        const animatedStyle={
-            transform: [
-                {
-                    scale: this.state.animation
-                }
-            ]
+        const widthInterpolate= this.state.animation.interpolate({
+            inputRange: [0,1],
+            outputRange: ['20%', '50%'],
+        })
+ 
+        const heightInterpolate= this.state.animation.interpolate({
+            inputRange: [0,1],
+            outputRange: ["20%", "30%"],
+        })
+ 
+        const animatedStyles={
+            width: widthInterpolate,
+            height: heightInterpolate,
         }
-        
+ 
+
         return (<View style={styles.container}>
             <TouchableWithoutFeedback onPress={this.startAnimation}>
-                <Animated.View style={[styles.box, animatedStyle]}>
+                <Animated.View style={[styles.box, animatedStyles]}>
                     <Animated.Text >This is animated view</Animated.Text>
                 </Animated.View>
             </TouchableWithoutFeedback>
@@ -58,11 +60,11 @@ const styles = StyleSheet.create({
     },
     box: {
         //position: 'absolute',
-        width: 150,
+        //width: 150,
         /* top:0,
         right:0,
         left:0, */
-        height: 150,
+        //height: 150,
         backgroundColor: 'red',
         justifyContent: 'center',
         alignItems: 'center'
