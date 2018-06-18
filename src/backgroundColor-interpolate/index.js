@@ -12,7 +12,7 @@ import {
 export default class App extends React.Component {
 
     state = {
-        animation: new Animated.Value(1),
+        animation: new Animated.Value(0),
     }
 
 
@@ -20,38 +20,30 @@ export default class App extends React.Component {
     startAnimation = () => {
 
         Animated.timing(this.state.animation, {
-            toValue: 3,
-            duration: 2000
+            toValue: 2,
+            duration: 1000
         }).start(() => {
-            Animated.timing(this.state.animation, {
-                toValue: 1,
-                duration: 2000
-            }).start()
+            this.state.animation.setValue(0)
             })  
     }
 
     render() {
 
-        const scaleInterpolate= this.state.animation.interpolate({
-            inputRange: [1,2],
-            outputRange:[1,2],
-            //extrapolate: "clamp",
-            //extrpolate: "identity",
-            extrapolateLeft: "clamp",
-           // extrapolateRight: "clamp"
-
+        const colorInterpolate= this.state.animation.interpolate({
+            inputRange: [0, 1, 2],
+            outputRange: ["rgb(71,255,99)", "rgb(255,99,71)","rgb(99, 71, 255)"]
         })
 
-        
+        const bgStyle= {backgroundColor: this.state.animation.interpolate({
+            inputRange: [0,2],
+            outputRange: ["rgba(255,99,71, 1)", "rgba(255,99,71, 0)"]
+        })}
+
         const animatedStyle={
-            transform:[{
-                scale: scaleInterpolate
-            }
-                
-            ]
+            backgroundColor: colorInterpolate
         }
 
-        return (<Animated.View style={[styles.container]}>
+        return (<Animated.View style={[styles.container, bgStyle]}>
             <TouchableWithoutFeedback onPress={this.startAnimation}>
                 <Animated.View
                     style={[styles.box, animatedStyle]} >
