@@ -47,7 +47,7 @@ export default class App extends React.Component {
             onPanResponderRelease: (e,{vx, vy})=>{
                 Animated.decay(this.state.animation,{
                     velocity: {x: vx, y: vy},
-                    deceleration:2
+                    deceleration:0
                 }).start()
             } 
         })

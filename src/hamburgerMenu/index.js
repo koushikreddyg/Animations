@@ -10,13 +10,13 @@ import {
     } from 'react-native';
 
     getDirectionAndColor=({dx,dy})=>{
-        if(dx< -1){
+        if(dx--){
             return 'dragged left'
-        }else if(dx>1){
+        }else if(dx++){
             return 'dragged right'
-        }else if(dy>1){
+        }else if(dy++){
             return 'dragged down'
-        }else if(dy<-1){
+        }else if(dy--){
             return 'dragged up'
         }
     }
